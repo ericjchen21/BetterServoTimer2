@@ -80,7 +80,7 @@ uint8_t BetterServoTimer2::attach(int pin, int minPulseWidth, int maxPulseWidth)
 
 		initISR();
 	}
-	if(this->chanIndex > 0) {
+	if((this->chanIndex > 0) && (minPulseWidth < maxPulseWidth)) { // ensure channel is valid and pulse widths are valid
 
 		//debug("attaching chan = ", chanIndex);
 		// set servo pin to output
@@ -88,8 +88,15 @@ uint8_t BetterServoTimer2::attach(int pin, int minPulseWidth, int maxPulseWidth)
 		servos[this->chanIndex].Pin.nbr = pin;
 		servos[this->chanIndex].Pin.isActive = true;
 
-		servos[this->chanIndex].minPulseWidth = minPulseWidth;
-		servos[this->chanIndex].maxPulseWidth = maxPulseWidth;
+		if(minPulseWidth != MIN_PULSE_WIDTH) { // ensure pulse width is valid
+
+			servos[this->chanIndex].minPulseWidth = minPulseWidth;
+		}
+		
+		if(maxPulseWidth != MAX_PULSE_WIDTH) {
+
+			servos[this->chanIndex].maxPulseWidth = maxPulseWidth;
+		}
 	}
 	return this->chanIndex;
 }
