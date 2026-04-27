@@ -95,9 +95,9 @@ typedef struct {
 
   byte remainder;
 
-  int minPulseWidth;
+  int minPulseWidth = MIN_PULSE_WIDTH;
 
-  int maxPulseWidth;
+  int maxPulseWidth = MAX_PULSE_WIDTH;
 
 } servo_t;
 
