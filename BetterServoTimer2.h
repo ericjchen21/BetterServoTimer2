@@ -109,7 +109,8 @@ class BetterServoTimer2 {
     uint8_t attach(int); // attach the given pin to the next free channel, sets pinMode, returns channel number or 0 if failure. The attached servo is pulsed with DEFAULT_PULSE_WIDTH
     uint8_t attach(int, int, int); // as above but also sets min and max values for writes. 
     void detach(); // detach the servo from its pin, stops pulsing the pin
-    void write(int); // store the pulse width in microseconds (between MIN_PULSE_WIDTH and MAX_PULSE_WIDTH)for this channel
+    void write(float); // sets the servo pulse width in degrees (between 0 and 180)
+    void writeMicroseconds(int); // store the pulse width in microseconds (between MIN_PULSE_WIDTH and MAX_PULSE_WIDTH)for this channel
     int read(); // returns current pulse width in microseconds for this servo
     boolean attached(); // return true if this servo is attached 
 

@@ -109,7 +109,14 @@ void BetterServoTimer2::detach() {
 	servos[this->chanIndex].Pin.isActive = false;
 }
 
-void BetterServoTimer2::write(int pulsewidth) {	
+void BetterServoTimer2::write(float degree) {
+
+	int pulsewidth = (degree / 180.0) * (servos[this->chanIndex].maxPulseWidth - servos[this->chanIndex].minPulseWidth) + servos[this->chanIndex].minPulseWidth;
+
+	writeMicroseconds(pulsewidth);
+}
+
+void BetterServoTimer2::writeMicroseconds(int pulsewidth) {	
 
 	// call the static function to store the data for this servo
 	writeChan(this->chanIndex, pulsewidth);
