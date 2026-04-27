@@ -39,7 +39,7 @@ ISR (TIMER2_OVF_vect) {
 
 		Channel++;		// increment to the next channel
 		ISRCount = 0;	// reset the isr iteration counter 
-		TCNT2 = 0;	// reset the clock counter register
+		TCNT2 = 0;		// reset the clock counter register
 
 		if((Channel != FRAME_SYNC_INDEX) && (Channel <= NBR_CHANNELS)) { // check if we need to pulse this channel
 
@@ -100,7 +100,7 @@ uint8_t BetterServoTimer2::attach(int pin, int minPulseWidth, int maxPulseWidth)
 		return this->chanIndex;
 	}
 
-	// failure to attach, ivalid pin or pulse widths
+	// failure to attach, invalid pin or pulse widths
 	return 0;
 }
 
