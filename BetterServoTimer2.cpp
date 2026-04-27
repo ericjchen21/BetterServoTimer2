@@ -64,7 +64,7 @@ BetterServoTimer2::BetterServoTimer2() {
 	}
 	else {
 
-		// todo	// too many channels, assigning 0 inhibits this instance from functioning 
+		// too many channels, assigning 0 inhibits this instance from functioning 
 		this->chanIndex = 0;
 	}
 }
@@ -80,26 +80,28 @@ uint8_t BetterServoTimer2::attach(int pin, int minPulseWidth, int maxPulseWidth)
 
 		initISR();
 	}
-	
+
 	if((this->chanIndex > 0) && (minPulseWidth < maxPulseWidth)) { // ensure channel is valid and pulse widths are valid
 
-		//debug("attaching chan = ", chanIndex);
 		// set servo pin to output
 		pinMode(pin, OUTPUT);
 		servos[this->chanIndex].Pin.nbr = pin;
+
+		// set min and max pulse widths
+		servos[this->chanIndex].minPulseWidth = minPulseWidth;
+		servos[this->chanIndex].maxPulseWidth = maxPulseWidth;
+
+		writeChan(this->chanIndex, DEFAULT_PULSE_WIDTH); // initialize servo to default pulse width
+
+		// enable channel pin
 		servos[this->chanIndex].Pin.isActive = true;
-
-		if(minPulseWidth != MIN_PULSE_WIDTH) { // ensure pulse width is valid
-
-			servos[this->chanIndex].minPulseWidth = minPulseWidth;
-		}
 		
-		if(maxPulseWidth != MAX_PULSE_WIDTH) {
-
-			servos[this->chanIndex].maxPulseWidth = maxPulseWidth;
-		}
+		// return chanIndex on success
+		return this->chanIndex;
 	}
-	return this->chanIndex;
+
+	// failure to attach, ivalid pin or pulse widths
+	return 0;
 }
 
 void BetterServoTimer2::detach() {
@@ -158,12 +160,6 @@ static void writeChan(uint8_t chan, int pulsewidth) {
 }
 
 static void initISR() {
-
-	for(uint8_t i = 1; i <= NBR_CHANNELS; i++) { // channels start from 1
-		
-		// store default values	 
-		writeChan(i, DEFAULT_PULSE_WIDTH);
-	}
 
 	// store the frame sync period
 	servos[FRAME_SYNC_INDEX].counter = FRAME_SYNC_DELAY;
