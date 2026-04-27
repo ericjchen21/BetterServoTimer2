@@ -80,6 +80,7 @@ uint8_t BetterServoTimer2::attach(int pin, int minPulseWidth, int maxPulseWidth)
 
 		initISR();
 	}
+	
 	if((this->chanIndex > 0) && (minPulseWidth < maxPulseWidth)) { // ensure channel is valid and pulse widths are valid
 
 		//debug("attaching chan = ", chanIndex);
